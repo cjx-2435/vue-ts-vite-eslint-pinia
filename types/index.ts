@@ -4,3 +4,8 @@ export interface Resp<T = any> {
   msg: string
   message: T
 }
+
+export interface User {
+  name: string
+  password: string
+}

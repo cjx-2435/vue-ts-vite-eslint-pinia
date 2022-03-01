@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import App from '@/App.vue'
+import NProgress from 'nprogress'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',

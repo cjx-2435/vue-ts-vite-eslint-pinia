@@ -1,11 +1,3 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-
-defineProps<{ msg: string }>()
-
-const count = ref(0)
-</script>
-
 <template>
   <h1>{{ msg }}</h1>
 
@@ -32,7 +24,35 @@ const count = ref(0)
     Edit
     <code>components/HelloWorld.vue</code> to test hot module replacement.
   </p>
+  <button @click="handleLogin">login</button>
+  <button @click="handleChangeName">change</button>
+  <div>{{ mainStore }}</div>
+  <div>{{ mainStore.nameLength }}</div>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { User } from '@/api'
+import { useMainStore } from '@/store/main'
+defineProps<{ msg: string }>()
+const mainStore = useMainStore()
+const count = ref(0)
+
+async function handleLogin() {
+  const name = 'test1001'
+  await User.Login({
+    name,
+    password: 'a12345678',
+  })
+  mainStore.$patch({
+    name,
+  })
+}
+
+async function handleChangeName() {
+  await mainStore.insertPost('测试测试test test')
+}
+</script>
 
 <style lang="scss" scoped>
 a {

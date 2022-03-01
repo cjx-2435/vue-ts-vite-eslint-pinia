@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosInstance, AxiosError } from 'axios'
 import { BASE_URL, TIME_OUT } from '@/common/constants'
 import { Resp } from '~/index'
+import NProgress from 'NProgress'
 
 console.log(BASE_URL, TIME_OUT)
 
@@ -53,31 +54,57 @@ class Http {
   }
   // axios request
   // D为 config中 data 的类型，R是 返回值 的类型
-  public async request<D = any, R = Resp>(config: AxiosRequestConfig<D>): Promise<R> {
+  public request<D = any, R = Resp>(config: AxiosRequestConfig<D>): Promise<R> {
     // 第一个泛型 为axiosResponse中data的默认值, 第二个泛型为 返回的Promise内容的类型，第三个泛型为 config中 data 的类型，也是其他方法body参数的类型
-    const data = await this.instance.request<R, R, D>(config)
-    return data
+    return new Promise((resolve, reject) => {
+      NProgress.start()
+      this.instance
+        .request<R, R, D>(config)
+        .then((res) => {
+          NProgress.done()
+          resolve(res)
+        })
+        .catch((err) => {
+          NProgress.done()
+          reject(err)
+        })
+    })
   }
   // axios get
   public async get<D = any, R = Resp>(url: string, config?: AxiosRequestConfig<D>): Promise<R> {
-    const data = await this.instance.get<R, R, D>(url, config)
-    return data
+    return new Promise((resolve, reject) => {
+      NProgress.start()
+      this.instance
+        .get<R, R, D>(url, config)
+        .then((res) => {
+          NProgress.done()
+          resolve(res)
+        })
+        .catch((err) => {
+          NProgress.done()
+          reject(err)
+        })
+    })
   }
   // axios post
   public async post<D = any, R = Resp>(
     url: string,
     _data?: D,
-    config?: AxiosRequestConfig<URLSearchParams>
+    config?: AxiosRequestConfig<D>
   ): Promise<R> {
-    const mapping: any[][] = []
-    if (_data) {
-      for (const key in _data) {
-        mapping.push([key, _data[key]])
-      }
-    }
-    const mappingData = new URLSearchParams(mapping)
-    const data = await this.instance.post<R, R, URLSearchParams>(url, mappingData, config)
-    return data
+    return new Promise((resolve, reject) => {
+      NProgress.start()
+      this.instance
+        .post<R, R, D>(url, _data, config)
+        .then((res) => {
+          NProgress.done()
+          resolve(res)
+        })
+        .catch((err) => {
+          NProgress.done()
+          reject(err)
+        })
+    })
   }
   // axios put
   public async put<D = any, R = Resp>(
@@ -85,13 +112,35 @@ class Http {
     _data?: D,
     config?: AxiosRequestConfig<D>
   ): Promise<R> {
-    const data = await this.instance.put<R, R, D>(url, _data, config)
-    return data
+    return new Promise((resolve, reject) => {
+      NProgress.start()
+      this.instance
+        .put<R, R, D>(url, _data, config)
+        .then((res) => {
+          NProgress.done()
+          resolve(res)
+        })
+        .catch((err) => {
+          NProgress.done()
+          reject(err)
+        })
+    })
   }
   // axios delete
   public async delete<D = any, R = Resp>(url: string, config?: AxiosRequestConfig<D>): Promise<R> {
-    const data = await this.instance.delete<R, R, D>(url, config)
-    return data
+    return new Promise((resolve, reject) => {
+      NProgress.start()
+      this.instance
+        .delete<R, R, D>(url, config)
+        .then((res) => {
+          NProgress.done()
+          resolve(res)
+        })
+        .catch((err) => {
+          NProgress.done()
+          reject(err)
+        })
+    })
   }
 }
 
