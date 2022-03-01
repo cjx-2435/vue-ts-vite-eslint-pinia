@@ -13,15 +13,15 @@
     "lib": [
       "esnext",
       "dom"
-    ]
-  },
-  "paths": {
-    "@/*": [
-      "./src/*"
     ],
-    "~/*": [
-      "./types/*"
-    ]
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "~/*": [
+        "./types/*"
+      ]
+    },
   },
   "include": [
     "src/**/*.ts",
@@ -30,10 +30,5 @@
     "src/**/*.vue",
     "types/env.d.ts",
     "types/index.ts"
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
   ]
 }
